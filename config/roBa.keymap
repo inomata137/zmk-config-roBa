@@ -7,7 +7,7 @@
 #define JP_KANA  LANGUAGE_1  // かな
 #define JP_EISU  LANGUAGE_2  // 英数
 
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 10
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 80
 
 &mt {
     flavor = "balanced";
@@ -149,7 +149,7 @@
             label = "ENCODER_MSC_DOWN_UP";
             #sensor-binding-cells = <0>;
             bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
-            tap-ms = <200>;
+            tap-ms = <20>;
         };
     };
 
