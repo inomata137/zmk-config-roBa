@@ -17,12 +17,13 @@
 };
 
 / {
-    trackball_listener: trackball_listener {
+    trackball_listener {
         status = "okay";
         compatible = "zmk,input-listener";
         device = <&trackball>;
 
-        scroller: scroller {
+        scroller {
+            layers = <5>;
             input-processors = <
                 &zip_xy_to_scroll_mapper
                 &zip_scroll_transform INPUT_TRANSFORM_Y_INVERT
