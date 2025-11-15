@@ -7,7 +7,7 @@
 #define JP_KANA  LANGUAGE_1  // かな
 #define JP_EISU  LANGUAGE_2  // 英数
 
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 80
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 40
 
 &mt {
     flavor = "balanced";
@@ -169,10 +169,10 @@
 
         L1_NUM {
             bindings = <
-&kp N1          &mo2    &kp N3  &kp N4  &kp N5                      &mo6            &mo7            &mo8             &mo9    &mo0
-&kp LEFT_SHIFT  &trans  &trans  &trans  &trans  &trans      &trans  &trans          &kp UP_ARROW    &trans           &trans  &kp RIGHT_SHIFT
-&kp LEFT_SHIFT  &trans  &trans  &trans  &trans  &trans      &trans  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &trans  &kp RIGHT_SHIFT
-&trans          &trans  &trans  &trans  &trans  &trans      &trans  &trans                                                   &trans
+&kp N1          &mo2    &kp N3  &kp N4  &kp N5                      &mo6    &mo7            &mo8             &mo9             &mo0
+&kp LEFT_SHIFT  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans          &kp UP_ARROW     &trans           &kp RIGHT_SHIFT
+&kp LEFT_SHIFT  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &kp LEFT_ARROW  &kp DOWN_ARROW   &kp RIGHT_ARROW  &kp RIGHT_SHIFT
+&trans          &trans  &trans  &trans  &trans  &trans      &trans  &trans                                                            &trans
             >;
         };
 
