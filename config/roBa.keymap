@@ -4,7 +4,7 @@
 
 #include <dt-bindings/zmk/pointing.h>
 
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 60
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 80
 
 // Copied from https://github.com/kureyakey/zmk-config-zonkey/blob/main/config/zonkey.keymap
 #define JP_KANA  LANGUAGE_1  // かな
