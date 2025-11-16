@@ -2,8 +2,9 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 
-#define ZMK_POINTING_DEFAULT_SCRL_VAL 60
 #include <dt-bindings/zmk/pointing.h>
+
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 60
 
 // Copied from https://github.com/kureyakey/zmk-config-zonkey/blob/main/config/zonkey.keymap
 #define JP_KANA  LANGUAGE_1  // かな
