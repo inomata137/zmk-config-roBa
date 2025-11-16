@@ -145,11 +145,11 @@
             tapping-term-ms = <200>;
         };
 
-        encoder_msc_down_up: encoder_msc_down_up {
+        encoder_msc_scroll: encoder_msc_scroll {
             compatible = "zmk,behavior-sensor-rotate";
-            label = "ENCODER_MSC_DOWN_UP";
+            label = "ENCODER_MSC_SCROLL";
             #sensor-binding-cells = <0>;
-            bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
+            bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
             tap-ms = <20>;
         };
     };
@@ -165,7 +165,7 @@
 &kp LCTRL         &kp LMETA  &kp LEFT_ALT  &lt_to_layer_0 1 JP_EISU  &lt 2 SPACE  &lt_to_layer_0 3 JP_KANA      &kp BACKSPACE  &lt 1 ENTER                             &kp UNDERSCORE
             >;
 
-            sensor-bindings = <&encoder_msc_down_up>;
+            sensor-bindings = <&encoder_msc_scroll>;
         };
 
         L1_NUM {
