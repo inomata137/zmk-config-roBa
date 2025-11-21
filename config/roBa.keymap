@@ -1,14 +1,19 @@
 #include <behaviors.dtsi>
+#include <input/processors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 
-#include <dt-bindings/zmk/pointing.h>
-
+// Somehow values less than 80 don't work well
 #define ZMK_POINTING_DEFAULT_SCRL_VAL 80
+
+#include <dt-bindings/zmk/pointing.h>
 
 // Copied from https://github.com/kureyakey/zmk-config-zonkey/blob/main/config/zonkey.keymap
 #define JP_KANA  LANGUAGE_1  // かな
 #define JP_EISU  LANGUAGE_2  // 英数
+
+#define MISSION_CONTROL  C_AC_DESKTOP_SHOW_ALL_WINDOWS
+#define LAUNCHPAD        C_AC_DESKTOP_SHOW_ALL_APPLICATIONS
 
 &mt {
     flavor = "balanced";
@@ -16,8 +21,12 @@
 };
 
 &trackball {
-    automouse-layer = <4>;
     scroll-layers = <5>;
+};
+
+&mkp_input_listener {
+    // on mkp events, extend the automouse layer duration
+    input-processors = <&zip_temp_layer 4 600>;
 };
 
 / {
@@ -26,21 +35,56 @@
 
         esc {
             bindings = <&kp ESCAPE>;
+            layers = <0>;
             key-positions = <0 10>;
         };
 
-        tab {
-            bindings = <&kp TAB>;
-            key-positions = <10 11>;
+        parens {
+            bindings = <&parens>;
+            layers = <0>;
+            key-positions = <18 19>;
+        };
+
+        braces {
+            bindings = <&braces>;
+            layers = <0>;
+            key-positions = <7 8>;
+        };
+
+        brackets {
+            bindings = <&brackets>;
+            layers = <0>;
+            key-positions = <19 20>;
         };
     };
 
     macros {
-        to_layer_0: to_layer_0 {
+        to_l0: to_l0 {
             compatible = "zmk,behavior-macro-one-param";
             #binding-cells = <1>;
             bindings = <&to 0 &macro_param_1to1 &kp MACRO_PLACEHOLDER>;
             label = "TO_LAYER_0";
+        };
+
+        parens: parens {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_PARENTHESIS &kp RIGHT_PARENTHESIS &kp LEFT_ARROW>;
+            label = "PARENS";
+        };
+
+        braces: braces {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_BRACE &kp RIGHT_BRACE &kp LEFT_ARROW>;
+            label = "BRACES";
+        };
+
+        brackets: brackets {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LEFT_BRACKET &kp RIGHT_BRACKET &kp LEFT_ARROW>;
+            label = "BRACKETS";
         };
     };
 
@@ -51,7 +95,7 @@
         lt_to_l0: lt_to_l0 {
             compatible = "zmk,behavior-hold-tap";
             label = "LAYER_TAP_TO_0";
-            bindings = <&mo>, <&to_layer_0>;
+            bindings = <&mo>, <&to_l0>;
 
             #binding-cells = <2>;
             tapping-term-ms = <200>;
@@ -62,95 +106,16 @@
             label = "ENCODER_MSC_SCROLL";
             #sensor-binding-cells = <0>;
             bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
+            // Somehow values less than 20 don't work well
             tap-ms = <20>;
         };
+    };
 
-        mo2: mo2 {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp N2>, <&kp DOUBLE_QUOTES>;
-
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        mo6: mo6 {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp N6>, <&kp AMPERSAND>;
-
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        mo7: mo7 {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp N7>, <&kp SINGLE_QUOTE>;
-
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        mo8: mo8 {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp N8>, <&kp LEFT_PARENTHESIS>;
-
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        mo9: mo9 {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp N9>, <&kp RIGHT_PARENTHESIS>;
-
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        mo0: mo0 {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp N0>, <&kp LS(N9)>;
-
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        moA: moA {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp MINUS>, <&kp EQUAL>;
-
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        moB: moB {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp CARET>, <&kp TILDE>;
-
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        moC: moC {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp AT>, <&kp GRAVE>;
-
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        moD: moD {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp SEMI>, <&kp PLUS>;
-
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-
-        moE: moE {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp COLON>, <&kp ASTERISK>;
-
-            mods = <(MOD_LSFT|MOD_RSFT)>;
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        slow_mouse {
+            if-layers = <2 4>;
+            then-layer = <7>;
         };
     };
 
@@ -159,10 +124,10 @@
 
         default_layer {
             bindings = <
-&kp Q         &kp W      &kp E      &kp R                &kp T                                                       &kp Y        &kp U  &lt 5 I    &kp O    &kp P
-&mt LCTRL A   &kp S      &kp D      &kp F                &kp G        &mkp MB3                 &kp ESCAPE            &kp H        &kp J  &kp K      &kp L    &kp MINUS
-&mt LSHIFT Z  &kp X      &kp C      &kp V                &kp B        &kp COLON                &mt RMETA UNDERSCORE  &kp N        &kp M  &kp COMMA  &kp DOT  &mt RSHIFT SLASH
-&kp LMETA     &kp LALT   &kp LCTRL  &lt_to_l0 1 JP_EISU  &lt 2 SPACE  &lt_to_l0 3 JP_KANA      &kp BACKSPACE         &lt 1 ENTER                             &lt 6 UNDERSCORE
+&kp Q         &kp W     &kp E      &kp R                &kp T                                                  &kp Y        &kp U  &lt 5 I    &kp O    &kp P
+&mt LCTRL A   &kp S     &kp D      &kp F                &kp G        &mkp MB3                 &kp ESCAPE       &kp H        &kp J  &kp K      &kp L    &kp MINUS
+&mt LSHIFT Z  &kp X     &kp C      &kp V                &kp B        &kp SEMI                 &mt RMETA COLON  &kp N        &kp M  &kp COMMA  &kp DOT  &mt RSHIFT SLASH
+&kp LMETA     &kp LALT  &kp LCTRL  &lt_to_l0 1 JP_EISU  &lt 2 SPACE  &lt_to_l0 3 JP_KANA      &kp BACKSPACE    &lt 1 ENTER                             &mo 6
             >;
 
             sensor-bindings = <&encoder_msc_scroll>;
@@ -170,35 +135,35 @@
 
         L1_NUM {
             bindings = <
-&kp N1      &mo2          &kp N3        &kp N4         &kp N5                      &mo6    &mo7      &mo8      &mo9       &mo0
-&kp LSHIFT  &trans        &kp LS(UP)    &trans         &trans  &trans      &trans  &trans  &trans    &kp UP    &trans     &kp RSHIFT
-&kp LSHIFT  &kp LS(LEFT)  &kp LS(DOWN)  &kp LS(RIGHT)  &trans  &trans      &trans  &trans  &kp LEFT  &kp DOWN  &kp RIGHT  &kp RSHIFT
-&trans      &trans        &trans        &trans         &trans  &trans      &trans  &trans                                 &trans
+&kp C_BRI_DN  &kp C_BRI_UP  &kp MISSION_CONTROL  &kp C_AC_SEARCH  &kp LAUNCHPAD                          &trans    &trans   &kp C_MUTE  &kp C_VOL_DN  &kp C_VOL_UP
+&kp EXCL      &kp DQT       &kp HASH             &kp DOLLAR       &kp PERCENT    &trans      &trans      &kp AMPS  &kp SQT  &kp LPAR    &kp RPAR      &kp UNDERSCORE
+&kp N1        &kp N2        &kp N3               &kp N4           &kp N5         &trans      &trans      &kp N6    &kp N7   &kp N8      &kp N9        &kp N0
+&trans        &trans        &trans               &trans           &kp LSHIFT     &trans      &kp RSHIFT  &trans                                       &trans
             >;
         };
 
         L2_SYM {
             bindings = <
-&trans          &trans  &trans  &trans  &trans                      &trans           &trans    &moA      &moB  &kp BACKSLASH
-&trans          &trans  &trans  &trans  &trans  &trans      &trans  &trans           &kp LPAR  &kp RPAR  &moC  &kp LEFT_BRACKET
-&kp LEFT_SHIFT  &trans  &trans  &trans  &trans  &trans      &trans  &trans           &trans    &moD      &moE  &kp RIGHT_BRACKET
-&trans          &trans  &trans  &trans  &trans  &trans      &trans  &kp RIGHT_SHIFT                            &trans
+&trans  &kp EQUAL  &kp TILDE     &kp PIPE  &trans                      &trans      &trans    &kp MINUS  &kp CARET  &kp BACKSLASH
+&trans  &kp TAB    &kp GRAVE     &kp LBRC  &trans  &trans      &trans  &trans      &kp LPAR  &kp RPAR   &kp AT     &kp LBKT
+&trans  &kp PLUS   &kp ASTERISK  &kp RBRC  &trans  &trans      &trans  &trans      &trans    &kp SEMI   &kp COLON  &kp RBKT
+&trans  &trans     &trans        &trans    &trans  &trans      &trans  &kp RSHIFT                                  &trans
             >;
         };
 
         L3_FN {
             bindings = <
-&kp F1        &kp F2        &kp F3   &kp F4  &kp F5                        &kp F6   &kp F7   &kp F8      &kp F9        &kp F10
-&kp C_BRI_DN  &kp C_BRI_UP  &trans   &trans  &trans  &trans       &kp F11  &trans   &trans   &kp C_MUTE  &kp C_VOL_DN  &kp C_VOL_UP
-&trans        &trans        &trans   &trans  &trans  &kp F12      &kp F13  &trans   &trans   &trans      &trans        &trans
-&trans        &trans        &trans   &trans  &trans  &trans       &trans   &trans                                      &trans
+&kp F1  &kp F2        &kp F3        &kp F4          &kp F5                                &kp F6     &kp F7    &kp F8    &kp F9     &kp F10
+&trans  &trans        &kp LS(UP)    &kp LS(LG(N3))  &kp LS(LG(N4))  &trans       &kp F11  &trans     &trans    &kp UP    &trans     &trans
+&trans  &kp LS(LEFT)  &kp LS(DOWN)  &kp LS(RIGHT)   &kp LS(LG(N5))  &kp F12      &kp F13  &kp GLOBE  &kp LEFT  &kp DOWN  &kp RIGHT  &trans
+&trans  &trans        &trans        &trans          &trans          &trans       &trans   &trans                                    &trans
             >;
         };
 
         L4_MOUSE {
             bindings = <
 &trans  &trans  &trans  &trans  &trans                      &trans  &trans    &trans    &trans    &trans
-&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &mkp MB1  &mkp MB3  &mkp MB2  &mo 7
+&trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &mkp MB1  &mkp MB3  &mkp MB2  &trans
 &trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans  &trans    &trans    &trans    &trans
 &trans  &trans  &trans  &trans  &trans  &trans      &trans  &trans                                &trans
             >;
@@ -215,10 +180,10 @@
 
         L6_BT {
             bindings = <
-&trans  &trans        &trans        &trans        &trans                           &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-&trans  &trans        &trans        &trans        &trans  &trans      &trans       &trans        &trans        &trans        &trans        &bt BT_CLR
-&trans  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &trans  &trans      &bootloader  &trans        &trans        &trans        &trans        &bt BT_CLR_ALL
-&trans  &trans        &trans        &trans        &trans  &trans      &trans       &trans                                                  &trans
+&trans  &trans  &trans  &trans  &trans                           &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
+&trans  &trans  &trans  &trans  &trans  &trans      &trans       &trans        &trans        &trans        &trans        &bt BT_CLR
+&trans  &kp N1  &kp N2  &kp N3  &trans  &trans      &bootloader  &trans        &trans        &trans        &trans        &bt BT_CLR_ALL
+&trans  &trans  &trans  &trans  &trans  &trans      &trans       &trans                                                  &trans
             >;
         };
 
